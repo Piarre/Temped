@@ -9,7 +9,7 @@ namespace Temped
     {
         static readonly String TASK_NAME = "Temp folder (DO NOT CHANGE TASK'S NAME)";
         static readonly String TASK_DESCRIPTION = "Created by Temped (https://github.com/Piarre/Temped)";
-        static readonly String FOLDER_PATH = @"%USERPROFILE%\Downloads\Temp";
+        static readonly String FOLDER_PATH = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.UserProfile) + "\\Downloads\\Temp\\*");
 
 
         public Temped()
@@ -65,7 +65,6 @@ namespace Temped
 
         private void CreateAndScheduleTask()
         {
-            string tempFolderPath = @"%USERPROFILE%\Downloads\Temp\*";
 
             if (TaskExists(TASK_NAME))
             {
@@ -77,7 +76,7 @@ namespace Temped
             using (TaskService ts = new TaskService())
             {
                 TaskDefinition td = ts.NewTask();
-                td.Actions.Add(new ExecAction("powershell.exe", $"-NoProfile -ExecutionPolicy Bypass -File Remove-Item -Path \"{tempFolderPath}\" -Recurse", null));
+                td.Actions.Add(new ExecAction("powershell.exe", $"-NoProfile -ExecutionPolicy Bypass -File Remove-Item -Path \"{FOLDER_PATH}\" -Recurse", null));
 
                 td.RegistrationInfo.Author = "Piarre";
                 td.RegistrationInfo.Date = DateTime.Parse("02/09/2023");
