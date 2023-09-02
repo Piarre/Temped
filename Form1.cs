@@ -7,8 +7,10 @@ namespace Temped
 {
     public partial class Temped : Form
     {
-        String TASK_NAME = "Temp folder (DO NOT CHANGE TASK'S NAME)";
-        String TASK_DESCRIPTION = "Created by Temped (https://github.com/Piarre/Temped)";
+        static readonly String TASK_NAME = "Temp folder (DO NOT CHANGE TASK'S NAME)";
+        static readonly String TASK_DESCRIPTION = "Created by Temped (https://github.com/Piarre/Temped)";
+        static readonly String FOLDER_PATH = @"%USERPROFILE%\Downloads\Temp";
+
 
         public Temped()
         {
@@ -27,13 +29,12 @@ namespace Temped
 
         private Boolean CreateTempFolder()
         {
-            string folderPath = @"%USERPROFILE%\Downloads\Temp"; 
 
-            if (!Directory.Exists(folderPath))
+            if (!Directory.Exists(FOLDER_PATH))
             {
                 try
                 {
-                    Directory.CreateDirectory(folderPath);
+                    Directory.CreateDirectory(FOLDER_PATH);
                     Console.WriteLine("Folder created");
                     return true;
                 }
@@ -45,12 +46,13 @@ namespace Temped
             }
             else
             {
-                var boxResult = MessageBox.Show("A folder with this name already exists, overwrite it ?", null, MessageBoxButtons.OKCancel);
+                var boxResult = MessageBox.Show("A folder with this name already exists, overwrite it ?", "Temped", MessageBoxButtons.OKCancel, MessageBoxIcon.Information);
 
                 if (boxResult == DialogResult.OK)
                 {
-                    Directory.Delete(folderPath, true);
-                    Directory.CreateDirectory(folderPath);
+                    Directory.Delete(FOLDER_PATH, true);
+                    Directory.CreateDirectory(FOLDER_PATH);
+
                     return true;
                 } else if (boxResult == DialogResult.Cancel)
                 {
@@ -67,8 +69,9 @@ namespace Temped
 
             if (TaskExists(TASK_NAME))
             {
-                MessageBox.Show("The task is already exists, overwrite it ?");
-                return;
+                var boxResult = MessageBox.Show("The task is already exists, overwrite it ?", "Temped", MessageBoxButtons.OKCancel, MessageBoxIcon.Information);
+
+                if (boxResult == DialogResult.Cancel) return;
             }
 
             using (TaskService ts = new TaskService())
@@ -86,7 +89,7 @@ namespace Temped
 
                 ts.RootFolder.RegisterTaskDefinition(TASK_NAME, td);
 
-                MessageBox.Show("Tâche planifiée créée avec succès !");
+                MessageBox.Show("Task created !", "Temped", MessageBoxButtons.OK, MessageBoxIcon.Information);
             }
         }
 
@@ -94,11 +97,11 @@ namespace Temped
         {
             if (TaskExists(TASK_NAME))
             {
-                MessageBox.Show("The task is already exist's");
+                MessageBox.Show("The task already exists", "Temped", MessageBoxButtons.OK, MessageBoxIcon.Information);
             }
             else
             {
-                MessageBox.Show("The task do not exists");
+                MessageBox.Show("The task do not exists", "Temped", MessageBoxButtons.OK, MessageBoxIcon.Information);
             }
         }
 
@@ -114,11 +117,6 @@ namespace Temped
         private void githubProject_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
         {
             System.Diagnostics.Process.Start("https://github.com/Piarre/Temped");
-        }
-
-        private void label1_Click(object sender, EventArgs e)
-        {
-
         }
     }
 }
