@@ -84,8 +84,12 @@ namespace Temped
                 td.RegistrationInfo.Author = "Piarre";
                 td.RegistrationInfo.Date = DateTime.Parse("02/09/2023");
                 td.RegistrationInfo.Description = TASK_DESCRIPTION;
+
+                td.Settings.DisallowStartIfOnBatteries = false;
                 td.Settings.Hidden = false;
-                td.Settings.AllowDemandStart = false;
+                td.Settings.AllowDemandStart = true;
+                td.Settings.Compatibility = TaskCompatibility.V2_3; /* Windows 10 */
+/*                td.Settings.RunOnlyIfLoggedOn = true;
 
                 td.Triggers.Add(new LogonTrigger());
 
