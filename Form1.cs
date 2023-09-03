@@ -39,12 +39,11 @@ namespace Temped
                 try
                 {
                     Directory.CreateDirectory(FOLDER_PATH);
-                    Console.WriteLine("Folder created");
                     return true;
                 }
                 catch (Exception ex)
                 {
-                    MessageBox.Show($"Error while created the temp folder : {ex.Message}");
+                    MessageBox.Show($"Error while created the temp folder : {ex.Message}", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
                     return false;
                 }
             }
