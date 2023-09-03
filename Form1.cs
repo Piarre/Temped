@@ -12,16 +12,17 @@ namespace Temped
     {
         static readonly String TASK_NAME = "Temp folder (DO NOT CHANGE TASK'S NAME)";
         static readonly String TASK_DESCRIPTION = "Created by Temped (https://github.com/Piarre/Temped)";
-        static readonly String FOLDER_PATH = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.UserProfile) + "\\Downloads\\Temp\\*");
-
+        static readonly String FOLDER_PATH = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.UserProfile) + "\\Downloads\\Temp");
+        static readonly String FOLDER_PATH_ITEM = Path.Combine(FOLDER_PATH + "\\*");
 
         public Temped()
         {
+            
             InitializeComponent();
         }
         private void Temped_Load(object sender, EventArgs e)
         {
-            
+            this.usersList.Visible = false;
         }
 
         private void enableTempFolder_Click(object sender, EventArgs e)
