@@ -138,5 +138,64 @@ namespace Temped
         {
             System.Diagnostics.Process.Start("https://github.com/Piarre/Temped");
         }
+
+        private void forSpecificUser_CheckedChanged(object sender, EventArgs e)
+        {
+            if (forSpecificUser.Checked)
+            {
+                usersList.Items.Clear();
+
+                List<string> windowsUsers = GetWindowsUsers();
+                foreach (string user in windowsUsers)
+                {
+                    usersList.Items.Add(user);
+                }
+
+                usersList.Visible = true;
+            }
+            else
+            {
+                usersList.Visible = false;  
+            }
+        }
+
+        private List<string> GetWindowsUsers()
+        {
+            List<string> windowsUsers = new List<string>();
+
+            try
+            {
+                /* To get only LOCAL users */
+                ManagementObjectSearcher searcher = new ManagementObjectSearcher("SELECT * FROM Win32_UserAccount WHERE LocalAccount=True AND Disabled=False AND Lockout=False AND AccountType=512");
+                Console.WriteLine(searcher.Get());
+                ManagementObjectCollection userCollection = searcher.Get();
+
+                foreach (ManagementObject user in userCollection)
+                {
+                    string username = user["Name"].ToString();
+                    windowsUsers.Add(username);
+                }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("Error getting users : " + ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+
+            return windowsUsers;
+        }
+
+        private string GetLocalDomainName()
+        {
+            try
+            {
+                string localDomainName = Environment.MachineName;
+                return localDomainName;
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("Error getting local domain name: " + ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                return null;
+            }
+        }
     }
 }
