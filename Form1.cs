@@ -1,7 +1,10 @@
-﻿using System;
+using System;
+using System.Collections.Generic;
 using System.IO;
 using System.Windows.Forms;
 using Microsoft.Win32.TaskScheduler;
+using System.Management;
+using System.DirectoryServices.AccountManagement;
 
 namespace Temped
 {
