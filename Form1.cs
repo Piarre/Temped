@@ -90,6 +90,20 @@ namespace Temped
                 td.Settings.AllowDemandStart = true;
                 td.Settings.Compatibility = TaskCompatibility.V2_3; /* Windows 10 */
 /*                td.Settings.RunOnlyIfLoggedOn = true;
+*/
+                if (this.forSpecificUser.Checked)
+                {
+                    string domain = GetLocalDomainName();
+                    if (!string.IsNullOrEmpty(domain))
+                    {
+                        td.Principal.UserId = $"{domain}\\{this.usersList.Text}";
+                        td.Principal.LogonType = TaskLogonType.InteractiveToken;
+                    }
+                }
+                else
+                {
+                    td.Principal.UserId = null;
+                }
 
                 td.Triggers.Add(new LogonTrigger());
 
