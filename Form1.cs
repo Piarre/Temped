@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Windows.Forms;
@@ -79,7 +79,7 @@ namespace Temped
             using (TaskService ts = new TaskService())
             {
                 TaskDefinition td = ts.NewTask();
-                td.Actions.Add(new ExecAction("powershell.exe", $"-NoProfile -ExecutionPolicy Bypass -File Remove-Item -Path \"{FOLDER_PATH_ITEM}\" -Recurse -Force", null));
+                td.Actions.Add(new ExecAction("powershell.exe", $"-NoProfile -ExecutionPolicy Bypass Remove-Item -Path \"{FOLDER_PATH_ITEM}\" -Recurse -Force", null));
 
                 td.RegistrationInfo.Author = "Piarre";
                 td.RegistrationInfo.Date = DateTime.Parse("02/09/2023");
